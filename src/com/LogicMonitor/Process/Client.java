@@ -1,21 +1,20 @@
 package com.LogicMonitor.Process;
 
-import java.io.File;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Client {
 
 	public static void main(String[] args) {
-		/*Thread thread1 = new Thread(new CountLines(new File("filetest1.txt")));
-		Thread thread2 = new Thread(new CountLines(new File("filetest2.txt")));
-		thread1.start();
-		thread2.start();
-		try {
-			thread1.join();
-			thread2.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		System.out.println("Enter number of threads to work");
+		Scanner in = new Scanner(System.in);
+		int thread_count = in.nextInt();
+		Map<String, Integer>  lineCountMap = new TreeMap<String, Integer>();
+		lineCountMap = CountLines.execute(thread_count);
+		for(Map.Entry<String, Integer> entry: lineCountMap.entrySet()){
+			System.out.println("Key: "+ entry.getKey() + " value: "+ entry.getValue());
 		}
-		System.out.println(thread1.);*/
 	}
 
 }
