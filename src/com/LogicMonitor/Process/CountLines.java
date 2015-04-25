@@ -5,15 +5,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.Collection;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
+
 class Runner implements Runnable {
 	
-	public static Map<String,Integer> lineCountMap = new TreeMap<String, Integer>();
+	public static ConcurrentSkipListMap<String,Integer> lineCountMap = new ConcurrentSkipListMap<String, Integer>();
 	private String file;
 	private int count = 0;
 	
@@ -57,13 +59,14 @@ class Runner implements Runnable {
 
 public class CountLines {
     
-    public static Map<String, Integer> execute(int thread_count) {
+    public static ConcurrentSkipListMap<String, Integer> execute(int thread_count) {
     	//Use thread pooling to assign required number of threads
     	ExecutorService executor = Executors.newFixedThreadPool(thread_count);
-    	File folder = new File("logFiles/");
-    	for (final File fileEntry : folder.listFiles()) {
-    		 executor.submit(new Runner((fileEntry.getAbsolutePath())));
-    	}
+    	File folder = new File("logFiles/");       
+    	Collection<File> files = FileUtils.listFiles(folder, null, true);     
+    	for(File file : files){
+    	    executor.submit(new Runner((file.getAbsolutePath())));
+    	} 
         executor.shutdown();
         //At this point we have submitted all the tasks
         //Do not return map until line numbers is counted for all the files

@@ -3,6 +3,7 @@ package com.LogicMonitor.Process;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public class Client {
 
@@ -13,7 +14,7 @@ public class Client {
 		System.out.println("But you are free to select number of threads. Enter number of threads you want to choose");
 		Scanner in = new Scanner(System.in);
 		int thread_count = in.nextInt();
-		Map<String, Integer>  lineCountMap = new TreeMap<String, Integer>();
+		ConcurrentSkipListMap<String, Integer>  lineCountMap = new ConcurrentSkipListMap<String, Integer>();
 		//Compute Number of lines in each file
 		lineCountMap = CountLines.execute(thread_count);
 		//create a map that stores starting line number for each file
@@ -21,10 +22,7 @@ public class Client {
 		firstLineNumerMap = computeFirstLineOfEachFile(firstLineNumerMap,lineCountMap);
 		//add line numbers to the log files
 		AddLineNumbers.modifyFiles(firstLineNumerMap,thread_count);
-		for(Map.Entry<String, Integer> entry: firstLineNumerMap.entrySet()){
-			System.out.println(entry.getKey() + " : : " + entry.getValue());
-		}
-		
+		System.out.println("Line numbers added to all the log files. Please check the log files in logFiles\\ directory");
 	}
 	/**
 	 * Record starting line number of each file in a map

@@ -25,22 +25,43 @@ class PrependLineNumber implements Runnable{
         String line = null;
         BufferedReader bufferedReader = null;
         BufferedWriter bufferedWriter = null;
+        String content = "";
         try {
             bufferedReader = new BufferedReader(new FileReader(filePath));
-            bufferedWriter = new BufferedWriter(new FileWriter(filePath));
-            while ((line = bufferedReader.readLine()) != null) {
-                if (line.length() > 0){
-                	line = startingNumber + line;
-                }
-                bufferedWriter.write(line+"\n");
-                startingNumber++;
-             }
+            content = readContent(bufferedReader,line);
+            content = content.substring(0,content.lastIndexOf('\n'));
             bufferedReader.close();
+            bufferedWriter = new BufferedWriter(new FileWriter(filePath));
+            writeContent(content,bufferedWriter);
             bufferedWriter.close();
         }
         catch(Exception e){
         	System.out.println("Exception "+e +" occured in PrependLineNumber.run()");
         }
+	}
+
+	private void writeContent(String content, BufferedWriter bufferedWriter) {
+		try{
+			bufferedWriter.write(content);
+		}
+		catch(Exception e){
+			System.out.println("Exception "+ e +" in PrependLineNumber.writeContent()");
+		}
+	}
+
+	private String readContent(BufferedReader bufferedReader, String line) {
+		 String content = "";
+		 try{
+			 while ((line = bufferedReader.readLine()) != null) {
+				 line = startingNumber + ". "+ line;
+				 content = content + line + '\n';
+				 startingNumber++;
+			 }
+		 }
+		 catch(Exception e){
+			 System.out.println("Exception " + e + " at PrependLineNumber.readContent()");
+		 }
+		 return content;
 	}
 }
 
@@ -58,7 +79,6 @@ public class AddLineNumbers {
         } catch (InterruptedException e) {
         	System.out.println("Exception "+ e + " in AddLineNumbers.modifyFiles()");
         }
-        System.out.println("Added line numbers to all the files");
 	}
 
 }
