@@ -67,7 +67,7 @@ public class CountLines {
         executor.shutdown();
         //At this point we have submitted all the tasks
         //Do not return map until line numbers is counted for all the files
-        //To make sure that everything is executed -> say await 1 day.. this gives enough time to execute everything
+        //To make sure that everything is executed -> use await 1 day.. this gives enough time to execute everything
         try {
             executor.awaitTermination(1, TimeUnit.DAYS);
         } catch (InterruptedException e) {

@@ -14,10 +14,34 @@ public class Client {
 		Scanner in = new Scanner(System.in);
 		int thread_count = in.nextInt();
 		Map<String, Integer>  lineCountMap = new TreeMap<String, Integer>();
+		//Compute Number of lines in each file
 		lineCountMap = CountLines.execute(thread_count);
-		for(Map.Entry<String, Integer> entry: lineCountMap.entrySet()){
-			System.out.println("Key: "+ entry.getKey() + " value: "+ entry.getValue());
+		//create a map that stores starting line number for each file
+		Map<String, Integer>  firstLineNumerMap = new TreeMap<String, Integer>();
+		firstLineNumerMap = computeFirstLineOfEachFile(firstLineNumerMap,lineCountMap);
+		for(Map.Entry<String, Integer> entry: firstLineNumerMap.entrySet()){
+			System.out.println(entry.getKey() + " : : " + entry.getValue());
 		}
+		
+	}
+	/**
+	 * Record starting line number of each file in a map
+	 * @param firstLineNumerMap
+	 * @param lineCountMap
+	 * @return
+	 */
+	private static Map<String, Integer> computeFirstLineOfEachFile(Map<String, Integer> firstLineNumerMap, Map<String, Integer> lineCountMap) {
+		int count = 1;
+		int index = 0;
+		for(Map.Entry<String, Integer> entry: lineCountMap.entrySet()){
+			//Starting line = number of lines in previous file + 1
+			String key = entry.getKey();
+			int value = (index == 0) ? 1:count;
+			firstLineNumerMap.put(key, value);
+			count = count + entry.getValue();
+			index++;
+		}
+		return firstLineNumerMap;
 	}
 
 	/**
