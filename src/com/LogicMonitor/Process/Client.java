@@ -19,6 +19,8 @@ public class Client {
 		//create a map that stores starting line number for each file
 		Map<String, Integer>  firstLineNumerMap = new TreeMap<String, Integer>();
 		firstLineNumerMap = computeFirstLineOfEachFile(firstLineNumerMap,lineCountMap);
+		//add line numbers to the log files
+		AddLineNumbers.modifyFiles(firstLineNumerMap,thread_count);
 		for(Map.Entry<String, Integer> entry: firstLineNumerMap.entrySet()){
 			System.out.println(entry.getKey() + " : : " + entry.getValue());
 		}
