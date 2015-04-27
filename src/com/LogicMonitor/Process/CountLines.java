@@ -62,7 +62,7 @@ public class CountLines {
     public static ConcurrentSkipListMap<String, Integer> execute(int thread_count) {
     	//Use thread pooling to assign required number of threads
     	ExecutorService executor = Executors.newFixedThreadPool(thread_count);
-    	File folder = new File("logFiles/");       
+    	File folder = new File("logFiles"+File.separator);       
     	Collection<File> files = FileUtils.listFiles(folder, null, true);     
     	for(File file : files){
     	    executor.submit(new Runner((file.getAbsolutePath())));

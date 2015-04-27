@@ -1,5 +1,6 @@
 package com.LogicMonitor.Process;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -22,7 +23,7 @@ public class Client {
 		firstLineNumerMap = computeFirstLineOfEachFile(firstLineNumerMap,lineCountMap);
 		//add line numbers to the log files
 		AddLineNumbers.modifyFiles(firstLineNumerMap,thread_count);
-		System.out.println("Line numbers added to all the log files. Please check the log files in logFiles\\ directory");
+		System.out.println("Line numbers added to all the log files. Please check the log files in logFiles"+ File.separator+" directory");
 	}
 	/**
 	 * Record starting line number of each file in a map
